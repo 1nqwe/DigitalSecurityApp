@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/xmlEncryption"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#101010"
+    android:foregroundTint="@color/black"
+    tools:context=".Encryption">
+
+    <TextView
+        android:id="@+id/textVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:fontFamily="@font/inter_medium"
+        android:text="v1.0.0"
+        android:textColor="#FFFFFF" />
+
+    <Spinner
+        android:id="@+id/spinner_encryption"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#141415"
+        android:popupBackground="#141415" />
+
+    <EditText
+        android:id="@+id/input_enc"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Введете текст:"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#66FFFFFF"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="110dp" />
+
+    <Button
+        android:id="@+id/button_enc"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="200dp"
+        android:text="Получить"
+        android:backgroundTint="@color/design_default_color_primary_variant"
+        android:textColor="#FFFFFF"/>
+
+    <TextView
+        android:id="@+id/enc_result_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="310dp"
+        android:layout_gravity="center_horizontal"
+        android:text=" " />
+
+    <TextView
+        android:id="@+id/enc_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="280dp"
+        android:textColor="#66FFFFFF"
+        android:text="Нажмите на текст чтобы скопировать результат" />
+
+
+</FrameLayout>

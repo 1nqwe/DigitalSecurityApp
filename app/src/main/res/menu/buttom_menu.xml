@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/ic_manage"
+        android:title="Менеджер"
+        android:id="@+id/manage"
+        android:orderInCategory="1"/>
+
+    <item
+        android:icon="@drawable/ic_notes"
+        android:title="Заметки"
+        android:id="@+id/notes"
+        android:orderInCategory="2"/>
+
+    <item
+        android:icon="@drawable/ic_generator"
+        android:title="Генератор"
+        android:id="@+id/generator"
+        android:orderInCategory="3"/>
+
+    <item
+        android:icon="@drawable/ic_encryption"
+        android:title="Шифратор"
+        android:id="@+id/encryption"
+        android:orderInCategory="4"/>
+
+</menu>
