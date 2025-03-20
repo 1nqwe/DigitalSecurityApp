@@ -21,6 +21,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import java.util.Base64
+import kotlin.random.Random
 import android.content.Context.CLIPBOARD_SERVICE as CLIPBOARD_SERVICE1
 
 
@@ -41,15 +42,15 @@ class Encryption : Fragment() {
 
     }
 
-    @SuppressLint("ФВЦВФВФВФВФВФВФ")
+    @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var encMessage: EditText = view.findViewById(R.id.input_enc)
+        val encMessage: EditText = view.findViewById(R.id.input_enc)
         val button: Button = view.findViewById(R.id.button_enc)
         var enc: String = ""
         var encCodeMessage = ""
-        var textMessage: TextView = view.findViewById(R.id.enc_result_text)
+        val textMessage: TextView = view.findViewById(R.id.enc_result_text)
 
         spinner = view?.findViewById(R.id.spinner_encryption)!!;
         val spinnerList: List<String> =
@@ -69,7 +70,7 @@ class Encryption : Fragment() {
                 val selectedItem: String = parent?.getItemAtPosition(position).toString()
                 when (selectedItem) {
                     "To Base64" -> enc = "To Base64"
-                    "From Base64" -> enc = "From Base65"
+                    "From Base64" -> enc = "From Base64"
                     "URL Encode" -> enc = "URL Encode"
                     "URL Decode" -> enc = "URL Decode"
                 }
@@ -87,12 +88,13 @@ class Encryption : Fragment() {
                 textMessage.text = encCodeMessage
             }
             if (enc == "From Base64") {
-                encCodeMessage = decodeFromBase64(encMessage.toString())
+
                 textMessage.text = encCodeMessage
             }
         }
     }
 
+/*
     private fun encodeToBase64(message: String): String {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Base64.getEncoder().encodeToString(message.toByteArray(Charsets.UTF_8))
@@ -103,11 +105,25 @@ class Encryption : Fragment() {
 
     private fun decodeFromBase64(encodedMessage: String): String {
         val bytes = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Base64.getDecoder().decode(encodedMessage)
+           Base64.getDecoder().decode(encodedMessage)
         } else {
             TODO("VERSION.SDK_INT < O")
-        }
+       }
         return String(bytes, Charsets.UTF_8)
+    }
+*/
+
+
+
+    private fun encodeToBase64(message: String): String {
+        val salt = Random.nextBytes(16)
+        val saltedMessage = message + salt.toString(Charsets.UTF_8)
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Base64.getEncoder().encodeToString(saltedMessage.toByteArray(Charsets.UTF_8))
+        } else {
+            android.util.Base64.encodeToString(saltedMessage.toByteArray(Charsets.UTF_8), android.util.Base64.NO_WRAP)
+        }
     }
 
 
