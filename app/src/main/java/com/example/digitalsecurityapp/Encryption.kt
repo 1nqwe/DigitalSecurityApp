@@ -1,5 +1,6 @@
 package com.example.digitalsecurityapp
 
+import android.R.attr.clipToPadding
 import android.R.attr.label
 import android.R.attr.text
 import android.annotation.SuppressLint
@@ -22,7 +23,8 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import java.util.Base64
 import kotlin.random.Random
-import android.content.Context.CLIPBOARD_SERVICE as CLIPBOARD_SERVICE1
+
+
 
 
 private const val ARG_PARAM1 = "param1"
@@ -46,7 +48,9 @@ class Encryption : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val encMessage: EditText = view.findViewById(R.id.input_enc)
+
+        requireActivity()
+        val message: EditText = view.findViewById(R.id.input_enc)
         val button: Button = view.findViewById(R.id.button_enc)
         var enc: String = ""
         var encCodeMessage = ""
@@ -84,17 +88,25 @@ class Encryption : Fragment() {
         button.setOnClickListener {
             encCodeMessage = ""
             if (enc == "To Base64") {
-                encCodeMessage = encodeToBase64(encMessage.toString())
+                encCodeMessage = encodeToBase64(message.toString())
                 textMessage.text = encCodeMessage
             }
             if (enc == "From Base64") {
-
+                encCodeMessage = decodeFromBase64(message.toString())
                 textMessage.text = encCodeMessage
             }
         }
+
+
+
+
+
     }
 
-/*
+
+
+
+    /*
     private fun encodeToBase64(message: String): String {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Base64.getEncoder().encodeToString(message.toByteArray(Charsets.UTF_8))
@@ -114,7 +126,6 @@ class Encryption : Fragment() {
 */
 
 
-
     private fun encodeToBase64(message: String): String {
         val salt = Random.nextBytes(16)
         val saltedMessage = message + salt.toString(Charsets.UTF_8)
@@ -122,10 +133,38 @@ class Encryption : Fragment() {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Base64.getEncoder().encodeToString(saltedMessage.toByteArray(Charsets.UTF_8))
         } else {
-            android.util.Base64.encodeToString(saltedMessage.toByteArray(Charsets.UTF_8), android.util.Base64.NO_WRAP)
+            android.util.Base64.encodeToString(
+                saltedMessage.toByteArray(Charsets.UTF_8),
+                android.util.Base64.NO_WRAP
+            )
         }
     }
 
+    private fun decodeFromBase64(encodedMessage: String): String {
+        val cleanedMessage = encodedMessage.replace("[^A-Za-z0-9+/=]".toRegex(), "")
+
+        val saltMessage = try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                String(Base64.getDecoder().decode(cleanedMessage), Charsets.UTF_8)
+            } else {
+                String(
+                    android.util.Base64.decode(cleanedMessage, android.util.Base64.NO_WRAP),
+                    Charsets.UTF_8
+                )
+            }
+        } catch (e: IllegalArgumentException) {
+             TODO("")
+        }
+        return saltMessage.dropLast(16)
+    }
+
+
+
+    private fun copyText(text: String) {
+        val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText("Скопировать текст", text)
+        clipboardManager.setPrimaryClip(clipData)
+    }
 
 
 
