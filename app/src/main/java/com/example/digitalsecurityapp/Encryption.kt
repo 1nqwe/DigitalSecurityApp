@@ -58,7 +58,7 @@ class Encryption : Fragment() {
 
         spinner = view?.findViewById(R.id.spinner_encryption)!!;
         val spinnerList: List<String> =
-            listOf("To Base64", "From Base64", "URL Encode", "URL Decode")
+            listOf("To Base64", "From Base64")
         val arrayAdapter =
             ArrayAdapter(requireActivity(), android.R.layout.simple_list_item_1, spinnerList)
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
@@ -75,8 +75,6 @@ class Encryption : Fragment() {
                 when (selectedItem) {
                     "To Base64" -> enc = "To Base64"
                     "From Base64" -> enc = "From Base64"
-                    "URL Encode" -> enc = "URL Encode"
-                    "URL Decode" -> enc = "URL Decode"
                 }
             }
 
@@ -86,13 +84,12 @@ class Encryption : Fragment() {
         }
 
         button.setOnClickListener {
-            encCodeMessage = ""
             if (enc == "To Base64") {
-                encCodeMessage = encodeToBase64(message.toString())
+                encCodeMessage = encodeToBase64(message.text.toString())
                 textMessage.text = encCodeMessage
             }
             if (enc == "From Base64") {
-                encCodeMessage = decodeFromBase64(message.toString())
+                encCodeMessage = decodeFromBase64(message.text.toString())
                 textMessage.text = encCodeMessage
             }
         }
@@ -101,7 +98,7 @@ class Encryption : Fragment() {
 
 
         textMessage.setOnClickListener {
-            copyText(textMessage.toString())
+            copyText(textMessage.text.toString())
         }
 
     }
@@ -109,7 +106,7 @@ class Encryption : Fragment() {
 
 
 
-    /*
+
     private fun encodeToBase64(message: String): String {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Base64.getEncoder().encodeToString(message.toByteArray(Charsets.UTF_8))
@@ -126,44 +123,6 @@ class Encryption : Fragment() {
        }
         return String(bytes, Charsets.UTF_8)
     }
-*/
-
-
-    private fun encodeToBase64(message: String): String {
-        val salt = Random.nextBytes(16)
-        val saltedMessage = message + salt.toString(Charsets.UTF_8)
-
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Base64.getEncoder().encodeToString(saltedMessage.toByteArray(Charsets.UTF_8))
-        } else {
-            android.util.Base64.encodeToString(
-                saltedMessage.toByteArray(Charsets.UTF_8),
-                android.util.Base64.NO_WRAP
-            )
-        }
-    }
-
-    private fun decodeFromBase64(encodedMessage: String): String {
-        val cleanedMessage = encodedMessage.replace("[^A-Za-z0-9+/=]".toRegex(), "")
-
-        val saltMessage = try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                String(Base64.getDecoder().decode(cleanedMessage), Charsets.UTF_8)
-            } else {
-                String(
-                    android.util.Base64.decode(cleanedMessage, android.util.Base64.NO_WRAP),
-                    Charsets.UTF_8
-                )
-            }
-        } catch (e: IllegalArgumentException) {
-             TODO("")
-        }
-        return saltMessage.dropLast(16)
-    }
-
-
-
-
 
     private fun copyText(text: String) {
         val clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
