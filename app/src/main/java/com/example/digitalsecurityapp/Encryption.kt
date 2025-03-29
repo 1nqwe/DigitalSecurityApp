@@ -100,6 +100,9 @@ class Encryption : Fragment() {
 
 
 
+        textMessage.setOnClickListener {
+            copyText(textMessage.toString())
+        }
 
     }
 
@@ -160,10 +163,12 @@ class Encryption : Fragment() {
 
 
 
+
+
     private fun copyText(text: String) {
-        val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clipData = ClipData.newPlainText("Скопировать текст", text)
-        clipboardManager.setPrimaryClip(clipData)
+        val clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+        val clipData = ClipData.newPlainText(null, text)
+        clipboardManager?.setPrimaryClip(clipData)
     }
 
 
