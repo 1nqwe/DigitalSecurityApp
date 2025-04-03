@@ -3,22 +3,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#101010"
     tools:context=".Generator">
 
     <TextView
         android:id="@+id/textVersion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:fontFamily="@font/inter_medium"
         android:text="v1.0.0"
         android:textColor="#FFFFFF" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/gen_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textColor="@color/white"
-        android:text="Генератор" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="150dp"
+        android:fontFamily="@font/inter_medium"
+        android:text="нажмите чтобы скопировать результат"
+        android:textColor="#66FFFFFF" />
+
+    <TextView
+        android:id="@+id/result_gen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="250dp"
+        android:fontFamily="@font/inter_medium"
+        android:text=""
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/gen_login"
+        android:layout_width="170dp"
+        android:layout_height="65dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="400dp"
+        android:text="Сгенерировать логин"
+        android:backgroundTint="@color/design_default_color_primary_variant"
+        />
+
+    <Button
+        android:id="@+id/gen_password"
+        android:layout_width="170dp"
+        android:layout_height="65dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="500dp"
+        android:text="Сгенерировать пароль"
+        android:backgroundTint="@color/design_default_color_primary_variant"
+        />
+
+
 </FrameLayout>
